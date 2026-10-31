@@ -1,5 +1,23 @@
 <?php
 
+$applicationKey = (string) env('APP_KEY', '');
+
+if (str_starts_with($applicationKey, 'base64:')) {
+    $decodedKey = base64_decode(substr($applicationKey, 7), true);
+
+    if ($decodedKey !== false) {
+        $applicationKey = $decodedKey;
+    }
+}
+
+if ($applicationKey === '') {
+    throw new RuntimeException('APP_KEY must be set.');
+}
+
+if (strlen($applicationKey) !== 32) {
+    $applicationKey = hash('sha256', $applicationKey, true);
+}
+
 return [
 
     /*
@@ -97,7 +115,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'key' => env('APP_KEY'),
+    'key' => $applicationKey,
 
     'previous_keys' => [
         ...array_filter(
