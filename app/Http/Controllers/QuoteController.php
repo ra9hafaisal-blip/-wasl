@@ -33,7 +33,7 @@ class QuoteController extends Controller
         $category = in_array($request->query('category'), array_keys(self::CATEGORIES), true) ? $request->query('category') : null;
 
         $quotes = $this->visibleQuotes($userId)
-            ->when($request->boolean('mine') && $userId !== null, fn (Builder $query) => $query->where('user_id', $userId))
+            ->when($request->boolean('mine') && $userId !== null, fn ($query) => $query->where('user_id', $userId))
             ->with([
                 'user',
                 'relatedQuotes' => function ($relation) use ($userId): void {
@@ -42,23 +42,23 @@ class QuoteController extends Controller
                 },
             ])
             ->withCount(['likes', 'reposts'])
-            ->when($userId !== null, fn (Builder $query) => $query->withExists([
+            ->when($userId !== null, fn ($query) => $query->withExists([
                 'likes as liked_by_me' => fn ($likes) => $likes->where('users.id', $userId),
                 'reposts as reposted_by_me' => fn ($reposts) => $reposts->where('users.id', $userId),
             ]))
-            ->when($search !== '', function (Builder $query) use ($search): void {
-                $query->where(function (Builder $quoteQuery) use ($search): void {
+            ->when($search !== '', function ($query) use ($search): void {
+                $query->where(function ($quoteQuery) use ($search): void {
                     $quoteQuery->where('text', 'like', "%{$search}%")
                         ->orWhere('source', 'like', "%{$search}%")
                         ->orWhere('category', 'like', "%{$search}%")
                         ->orWhere('tags', 'like', "%{$search}%")
-                        ->orWhereHas('user', function (Builder $userQuery) use ($search): void {
+                        ->orWhereHas('user', function ($userQuery) use ($search): void {
                             $userQuery->where('name', 'like', "%{$search}%");
                         });
                 });
             })
-            ->when($kind !== null, fn (Builder $query) => $query->where('kind', $kind))
-            ->when($category !== null, fn (Builder $query) => $query->where('category', $category))
+            ->when($kind !== null, fn ($query) => $query->where('kind', $kind))
+            ->when($category !== null, fn ($query) => $query->where('category', $category))
             ->latest()
             ->paginate(12)
             ->withQueryString();
@@ -72,7 +72,7 @@ class QuoteController extends Controller
         }
 
         $linkableQuotes = $this->visibleQuotes($userId)
-            ->when($editingQuote !== null, fn (Builder $query) => $query->where('id', '<>', $editingQuote->id))
+            ->when($editingQuote !== null, fn ($query) => $query->where('id', '<>', $editingQuote->id))
             ->latest()
             ->limit(100)
             ->get(['id', 'text', 'kind', 'user_id']);
@@ -268,7 +268,7 @@ class QuoteController extends Controller
 
     private function visibleQuotes(?int $userId): Builder
     {
-        return Quote::query()->where(function (Builder $query) use ($userId): void {
+        return Quote::query()->where(function ($query) use ($userId): void {
             $query->where('visibility', 'public');
 
             if ($userId !== null) {
@@ -279,7 +279,7 @@ class QuoteController extends Controller
 
     private function applyVisibility($query, ?int $userId): void
     {
-        $query->where(function (Builder $visibleQuery) use ($userId): void {
+        $query->where(function ($visibleQuery) use ($userId): void {
             $visibleQuery->where('visibility', 'public');
 
             if ($userId !== null) {
