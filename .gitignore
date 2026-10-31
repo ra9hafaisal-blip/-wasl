@@ -6,6 +6,8 @@
 .phpactor.json
 .phpunit.result.cache
 /.codex
+/.claude
+/.mcp.json
 /.cursor/
 /.idea
 /.nova
@@ -21,6 +23,11 @@
 /storage/*.key
 /storage/pail
 /vendor
+database/*.sqlite
+database/*.sqlite-*
+database/*.db
+/tmp/
+/output/Wasl_SourceCode.zip
 _ide_helper.php
 Homestead.json
 Homestead.yaml

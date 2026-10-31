@@ -1,58 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# وَصْل | مكتبة معرفية مترابطة
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+منصة عربية لتدوين الاقتباسات والأفكار والملاحظات، تصنيفها، ربطها، واستكشافها في شبكة معرفية. الواجهة مبنية بـ Laravel Blade وTailwind CSS، والبيانات تُحفظ في قاعدة البيانات.
 
-## About Laravel
+## المتطلبات
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.4.1 أو أحدث (يتطلب إصدار Laravel الحالي PHP 8.4.1 على الأقل)
+- Composer
+- Node.js وnpm
+- قاعدة بيانات SQLite محلياً، أو قاعدة بيانات متوافقة مع Laravel
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## تشغيل المشروع محلياً
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+من مجلد المشروع:
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```powershell
+composer install
+if (!(Test-Path .env)) { Copy-Item .env.example .env }
+php artisan key:generate
+New-Item -ItemType File -Force database/database.sqlite
+php artisan migrate
+npm install
+npm run build
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+افتح `http://127.0.0.1:8000`. إذا كان ملف `.env` موجوداً، لا تستبدله؛ حدّث إعدادات قاعدة البيانات فقط عند الحاجة. لتطوير الواجهة مباشرة استخدم نافذة طرفية ثانية وشغّل `npm run dev`.
 
-## Contributing
+## الوظائف
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- تصفح عام للبطاقات مع اسم صاحبها وتاريخ نشرها، من دون الحاجة إلى تسجيل الدخول.
+- إنشاء حساب، تسجيل الدخول والخروج، وتخزين كلمات المرور مجزأة.
+- إنشاء بطاقات اقتباس وفكرة وملاحظة؛ الاقتباس من 3 إلى 155 حرفاً والفكرة أو الملاحظة حتى 2000 حرف.
+- اختيار المجال، المصدر، الوسوم، الملاحظة الشخصية، والظهور العام أو الخاص.
+- تعديل البطاقة وحذفها من قبل مالكها فقط.
+- البحث والتصفية حسب النوع والمجال، مع 12 بطاقة في الصفحة.
+- الإعجاب وإعادة النشر، وربط البطاقات بعلاقات معرفية تظهر في صفحة الشبكة.
+- إحصاءات ومخططات تُحسب من البطاقات العامة المسجلة، لا من أرقام ثابتة.
 
-## Code of Conduct
+## هيكل مفيد للمراجعة
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- `app/Http/Controllers`: منطق تسجيل الدخول وإدارة البطاقات والشبكة.
+- `app/Models` و`app/Policies`: نماذج البيانات والعلاقات وسياسات الملكية.
+- `database/migrations`: مخطط قاعدة البيانات وتطوراته.
+- `resources/views`: قوالب Blade للصفحات والمكونات.
+- `resources/css/app.css` و`resources/js/app.js`: تصميم الواجهة وحركاتها.
+- `routes/web.php`: مسارات الموقع.
+- `tests/Feature/LibraryTest.php`: اختبارات الخصائص الأساسية.
+- `docs`: وثيقة المتطلبات، ومخطط قاعدة البيانات، وسيناريو العرض.
 
-## Security Vulnerabilities
+## الاختبارات والبناء
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```powershell
+php artisan test
+npm run build
+```
 
-## License
+عند تعدد نسخ PHP في Windows، تحقق من النسخة المستخدمة بـ `php -v`؛ يلزم PHP 8.4.1 أو أحدث.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## حماية بيانات المشروع
+
+لا ترفق `.env` أو `vendor` أو `node_modules` أو ملف SQLite المحلي في حزمة التسليم. أنشئ ملف قاعدة بيانات جديداً وشغّل الترحيلات. لا تضع كلمات مرور الحسابات التجريبية داخل المستودع أو وثائق اللجنة.
+
+## التسليم
+
+توجد وثيقة المتطلبات ومخطط قاعدة البيانات بصيغتي PDF وملفاتهما المصدرية داخل `docs` و`output/pdf`. سيناريو العرض لمدة دقيقة محفوظ في `docs/demo-script.md`. يلزم تسجيل الفيديو ورفع رابط العرض إلى جهة التسليم يدوياً.
+
+## النشر العام
+
+العنوان المحلي `127.0.0.1` لا يصلح كرابط عام. خطوات تجهيز مستودع خاص ونشر التطبيق على Laravel Cloud، مع إعداد قاعدة الإنتاج وملاحظات نقل البيانات، موجودة في `docs/deployment-laravel-cloud.md`.

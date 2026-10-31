@@ -1,0 +1,53 @@
+erDiagram
+    USERS ||--o{ QUOTES : owns
+    QUOTES ||--o{ QUOTE_LINKS : source
+    QUOTES ||--o{ QUOTE_LINKS : target
+    USERS ||--o{ QUOTE_LIKES : likes
+    QUOTES ||--o{ QUOTE_LIKES : receives
+    USERS ||--o{ QUOTE_REPOSTS : reposts
+    QUOTES ||--o{ QUOTE_REPOSTS : receives
+
+    USERS {
+        bigint id PK
+        string name
+        string email UK
+        string password_hash
+        datetime created_at
+        datetime updated_at
+    }
+
+    QUOTES {
+        bigint id PK
+        bigint user_id FK
+        text text
+        string kind
+        string category
+        string source
+        text note
+        json tags
+        string visibility
+        datetime created_at
+        datetime updated_at
+    }
+
+    QUOTE_LINKS {
+        bigint quote_id PK,FK
+        bigint related_quote_id PK,FK
+        string relation_type
+        datetime created_at
+        datetime updated_at
+    }
+
+    QUOTE_LIKES {
+        bigint quote_id PK,FK
+        bigint user_id PK,FK
+        datetime created_at
+        datetime updated_at
+    }
+
+    QUOTE_REPOSTS {
+        bigint quote_id PK,FK
+        bigint user_id PK,FK
+        datetime created_at
+        datetime updated_at
+    }
