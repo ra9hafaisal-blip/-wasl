@@ -79,7 +79,7 @@
     @endif
 
     <div class="mb-4 flex items-end justify-between gap-4 px-1">
-        <div><p class="mono-label text-[11px] font-bold text-blue-950/70">03 / مكتبة المجتمع</p><h2 class="mt-2 text-2xl font-black text-white sm:text-3xl">أفكار تستحق الاكتشاف</h2></div>
+        <div><p class="mono-label text-[11px] font-bold text-blue-950/70">03 / مكتبة المجتمع</p><h2 class="mt-2 text-2xl font-black text-blue-950 sm:text-3xl">أفكار تستحق الاكتشاف</h2></div>
         <span class="rounded-full bg-white/80 px-3 py-1.5 text-sm font-semibold text-blue-950">{{ $quotes->total() }} بطاقة</span>
     </div>
 
@@ -114,7 +114,7 @@
 
     <section class="knowledge-dashboard mt-14" aria-labelledby="insights-title">
         <div class="mb-4 flex flex-wrap items-end justify-between gap-3 px-1">
-            <div><p class="mono-label text-[11px] font-bold text-blue-950/70">04 / لوحة المكتبة</p><h2 id="insights-title" class="mt-2 text-2xl font-black text-white sm:text-3xl">نبض المعرفة</h2></div>
+            <div><p class="mono-label text-[11px] font-bold text-blue-950/70">04 / لوحة المكتبة</p><h2 id="insights-title" class="mt-2 text-2xl font-black text-blue-950 sm:text-3xl">نبض المعرفة</h2></div>
             <span class="rounded-full border border-white/60 bg-white/75 px-3 py-1.5 text-xs font-bold text-blue-900">بيانات البطاقات العامة المسجلة</span>
         </div>
 
