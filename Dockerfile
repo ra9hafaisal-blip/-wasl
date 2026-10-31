@@ -1,4 +1,4 @@
-FROM php:8.3-cli AS php-deps
+FROM php:8.5-cli AS php-deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libicu-dev libpq-dev libzip-dev unzip \
     && docker-php-ext-install -j"$(nproc)" bcmath intl pdo_pgsql zip \
@@ -19,7 +19,7 @@ COPY public ./public
 COPY --from=php-deps /var/www/html/vendor ./vendor
 RUN npm run build
 
-FROM php:8.3-apache
+FROM php:8.5-apache
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libicu-dev libpq-dev libzip-dev \
     && docker-php-ext-install -j"$(nproc)" bcmath intl pdo_pgsql zip \
